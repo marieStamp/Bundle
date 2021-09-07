@@ -1,44 +1,51 @@
-const { resolve } = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const HtmlWebpackPlugin  = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {                  
     entry: './src/main.js',         
     output: {
-        path: resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, 'build'),
         filename: 'main.[contenthash].js'
     },
-    devServer: {
-        port: 9000,
-      },
     
     
     plugins: [
-        new HtmlWebpackPlugin({template: resolve(__dirname, 'index.html')}),
+        new HtmlWebpackPlugin({template: path.resolve(__dirname, 'index.html')}),
         new MiniCssExtractPlugin({ 
-            filename: '[name].[contenthash].css'
+            filename: 'style.[contenthash].css'
         }),
         new BundleAnalyzerPlugin(),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), 'build/**/*')]
+          }),
 
     ],
     module: {
         rules: [
-            { test: /\\.css$/, 
+            {test: /\.css$/, 
+					use: ['style-loader', 'css-loader'] },
+            { test: /\.css$/, 
                 use: [MiniCssExtractPlugin.loader, 'css-loader'] 
             },
-            { test: /\\.s[ac]ss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-            },
+            // { test: /\\.s[ac]ss$/i,
+            //     use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+            // },
 
             {
-                test: /\\.(png|jpe?g|gif|mp3)$/i, 
-						use: 'file-loader',
-						options: {
-		          name: '[path][name].[ext]',
-                        }
-                        }
+                test: /\.(png|jpe?g|gif|svg)$/i, 
+						use: 'file-loader'
+                        },
+                        {
+                            test: /\.mp3$/,
+                            loader: 'file-loader'
+                          }
 
         ]
-    }
+    },
+    devServer: {
+        port: 9000,
+      },
 }

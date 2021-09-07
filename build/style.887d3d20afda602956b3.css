@@ -1,0 +1,14 @@
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
+  \*****************************************************************/
+.hidden {
+    display: none;
+}
+
+.switcherCalc {
+    margin-bottom: 20px;
+}
+
+.switcherTimer {
+    margin-bottom: 20px;
+}
