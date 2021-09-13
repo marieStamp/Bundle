@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin  = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {                  
     entry: './src/main.js',         
@@ -18,15 +18,13 @@ module.exports = {
             filename: 'style.[contenthash].css'
         }),
         new BundleAnalyzerPlugin(),
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), 'build/**/*')]
-          }),
+        // new CleanWebpackPlugin(),
 
     ],
     module: {
         rules: [
-            {test: /\.css$/, 
-					use: ['style-loader', 'css-loader'] },
+            // {test: /\.css$/, 
+			// 		use: ['style-loader', 'css-loader'] },
             { test: /\.css$/, 
                 use: [MiniCssExtractPlugin.loader, 'css-loader'] 
             },
@@ -39,7 +37,7 @@ module.exports = {
 						use: 'file-loader'
                         },
                         {
-                            test: /\.mp3$/,
+                            test: /\.(mp3)$/i,
                             loader: 'file-loader'
                           }
 
